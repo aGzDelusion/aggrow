@@ -9,9 +9,12 @@ h1 {
 
 #main-page {
     background-color: #FFF;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #left-side {
+    float: left;
     position: absolute;
     left: 80px;
     top: 190px;
@@ -36,8 +39,8 @@ h1 {
     top: 25px;
     border-style: ridge;
     border-radius: 50%;
-    border-width: 2px;
-    border-color: #f2f2f2;
+    border-width: 5px;
+    border-color: #549556;
 }
 
 .logo-position {
@@ -56,7 +59,36 @@ h1 {
     position: absolute;
     color: #062473;
     top: 230px;
-    font-family: Raleway, inherit;
+    font-family: Raleway;
+    text-align: center;
+}
+
+.weather-api {
+    position: absolute;
+    color: #549556;
+    font-family: Raleway;
+    text-align: center;
+    left: 200px;
+    top: 30px;
+}
+
+.right-side {
+    position: absolute;
+    float: right;
+    font-family: Raleway;
+    color: #062473;
+    top: 25px;
+}
+
+.entry-box {
+    font-family: inherit;
+    color: black;
+    top: 35px;
+    width: 528px;
+    height: 305px;
+    border-color: white;
+    border-width: 1px;
+    box-shadow: 6px 6px 15px rgba(230, 230, 230, 0.9), -6px -6px 12px rgba(255, 255, 255, 0.9), 6px -6px 12px rgba(230, 230, 230, 0.2), -6px 6px 12px rgba(230, 230, 230, 0.2), inset -1px -1px 2px rgba(230, 230, 230, 0.5), inset 1px 1px 2px rgba(255, 255, 255, 0.3);
 }
 
 #vertical-bar {

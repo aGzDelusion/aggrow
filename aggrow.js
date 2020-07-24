@@ -6,3 +6,10 @@ function myFunction() {
         x.className = "topnav";
     }
 }
+
+$(document).ready(function()) {
+
+    function weather() {
+
+    }
+}

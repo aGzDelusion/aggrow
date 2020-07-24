@@ -6,8 +6,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="C:\Users\capta\Documents\ORIGIN Bootcamp\Website\Ver0-1\aggrow.js"></script>
-    <link rel="stylesheet" href="C:\Users\capta\Documents\ORIGIN Bootcamp\Website\Ver0-1\aggrow.css">
+    <script src="aggrow.js"></script>
+    <link rel="stylesheet" href="aggrow.css">
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
     <title>
         AgGrow
@@ -42,8 +42,20 @@
             <p class="name-tag">NameHere</p>
             <img src="https://d3e1m60ptf1oym.cloudfront.net/608be14a-e64d-4d2c-ad7e-d4077620d464/E42647-FR-01_uxga.jpg" class="profile-photo">
 
-            <p class="today-weather"> Today's Weather</p>
 
+            <div class="today-weather">
+                Today's Weather
+                <div class="weather-api">
+                    <h4 id="city">Ukiah</h4>
+                    <div class="icon">
+                        <img src="" alt="icon" id="icon">
+                        <div class="temperature">
+                            <h1 id="temp">77</h1>
+                            <h3 id="description">Cloudy</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <i id="vertical-bar"></i>
         <i id="vertical-bar-b"></i>
