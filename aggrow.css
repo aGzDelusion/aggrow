@@ -14,12 +14,13 @@ h1 {
 }
 
 #left-side {
-    float: left;
     position: absolute;
+    float: left;
     left: 80px;
     top: 190px;
     word-wrap: normal;
     width: 400px;
+    font-size: 18px;
 }
 
 .name-tag {
@@ -74,21 +75,48 @@ h1 {
 
 .right-side {
     position: absolute;
+    top: 210px;
+    left: 900px;
     float: right;
+    font-size: 18px;
     font-family: Raleway;
     color: #062473;
-    top: 25px;
+    width: 600px;
 }
 
-.entry-box {
+.question-box {
+    position: absolute;
+    float: right;
+    font-size: 15px;
     font-family: inherit;
     color: black;
-    top: 35px;
+    top: 60px;
     width: 528px;
     height: 305px;
+    padding: 20px;
     border-color: white;
     border-width: 1px;
     box-shadow: 6px 6px 15px rgba(230, 230, 230, 0.9), -6px -6px 12px rgba(255, 255, 255, 0.9), 6px -6px 12px rgba(230, 230, 230, 0.2), -6px 6px 12px rgba(230, 230, 230, 0.2), inset -1px -1px 2px rgba(230, 230, 230, 0.5), inset 1px 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.entry-box {
+    height: 190px;
+    width: 522px;
+    resize: none;
+    font-family: Raleway;
+    outline: none;
+    background: #F4F4F4;
+    box-shadow: -1px -1px 2px rgba(207, 207, 207, 0.5), 1px 1px 2px rgba(255, 255, 255, 0.3), inset 2px 2px 5px rgba(207, 207, 207, 0.9), inset -2px -2px 4px rgba(255, 255, 255, 0.9), inset 2px -2px 4px rgba(207, 207, 207, 0.2), inset -2px 2px 4px rgba(207, 207, 207, 0.2);
+}
+
+.submit-button {
+    position: relative;
+    top: 15px;
+    left: 261px;
+    text-align: center;
+    font-family: inherit;
+    background: #F9F9F9;
+    box-shadow: 5px 5px 13px rgba(224, 224, 224, 0.9), -5px -5px 10px rgba(255, 255, 255, 0.9), 5px -5px 10px rgba(224, 224, 224, 0.2), -5px 5px 10px rgba(224, 224, 224, 0.2), inset -1px -1px 2px rgba(224, 224, 224, 0.5), inset 1px 1px 2px rgba(255, 255, 255, 0.3);
 }
 
 #vertical-bar {
