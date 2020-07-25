@@ -119,6 +119,37 @@ h1 {
     box-shadow: 5px 5px 13px rgba(224, 224, 224, 0.9), -5px -5px 10px rgba(255, 255, 255, 0.9), 5px -5px 10px rgba(224, 224, 224, 0.2), -5px 5px 10px rgba(224, 224, 224, 0.2), inset -1px -1px 2px rgba(224, 224, 224, 0.5), inset 1px 1px 2px rgba(255, 255, 255, 0.3);
 }
 
+._-_-components-src-organism-CurrentConditions-CurrentConditions--dataWrapperInner--1_6ni {
+    line-height: 1.5;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    color: #549556;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+}
+
+._-_-components-src-organism-CurrentConditions-CurrentConditions--primary--2DOqs {
+    line-height: 1.5;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    color: #549556;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    text-align: left;
+}
+
+._-_-components-src-organism-CurrentConditions-CurrentConditions--tempValue--MHmYY {
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    color: #549556;
+    -webkit-box-direction: normal;
+    text-align: left;
+    display: block;
+    position: relative;
+    font-size: 3.5rem;
+    line-height: .96em;
+    font-weight: 500;
+}
+
 #vertical-bar {
     position: absolute;
     width: 468px;
