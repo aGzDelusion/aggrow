@@ -11,25 +11,25 @@ function myFunction() {
 
 $(document).ready(function() {
 
-    function weather() {
-        var URL = 'api.openweathermap.org/data/2.5/weather?q=Ukiah,CA,USA&appid=1ebcc78ddc0e6cd3f4400c4dfa13a255';
-        $.getJSON(URL, function(data) {
-            console.log(data);
-            updateDOM(data);
-        });
-    }
 
-    weather();
+            function weather() {
+                var URL = 'api.openweathermap.org/data/2.5/weather?q=London&appid=1ebcc78ddc0e6cd3f4400c4dfa13a255';
+                $.getJSON(URL, function(data) {
+                    console.log(data);
+                    updateDOM(data);
+                });
 
-    function updateDOM(data) {
-        var city = data.name;
-        var temp = data.main.temp;
-        /*        var icon = data.weather[0].icon;
-                var description = data.weather[0].description;*/
-        $('#city').html(city);
-        //$('#icon').html(icon);
-        $('#temp').html(temp);
-        //$('$description').html(description);
-    }
+                weather();
 
-});
+                function updateDOM(data) {
+                    var city = data.name;
+                    var temp = data.main.temp;
+                    var icon = data.weather[0].icon;
+                    var description = data.weather[0].description;
+                    $('#city').html(city);
+                    $('#icon').attr('src', icon);
+                    $('#temp').html(temp);
+                    $('$description').html(description);
+                }
+
+            });
