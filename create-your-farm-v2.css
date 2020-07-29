@@ -1,0 +1,30 @@
+.navbar-custom {
+    background-color: #549556 !important;
+    font-family: Raleway;
+}
+
+.blank-space {
+    height: 200px;
+}
+
+.logo {
+    max-width: auto;
+    max-height: 20px;
+    opacity: 1;
+}
+
+.container {
+    font-family: Raleway;
+    font-weight: 900;
+    top: 200px !important;
+    text-align: center;
+}
+
+h4 {
+    color: grey
+}
+
+.btn-secondary {
+    background-color: #549556 !important;
+    outline-color: #549556 !important;
+}
