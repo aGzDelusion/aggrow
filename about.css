@@ -1,0 +1,18 @@
+html,
+body {
+    background-color: #549556 !important;
+    background-image: url("balaji-malliswamy-hoIa1ufxt6M-unsplash.jpg");
+    font-family: Raleway !important;
+}
+
+h4 {
+    text-align: center;
+    font-family: Raleway !important;
+    color: white;
+}
+
+p {
+    text-align: center;
+    font-family: inherit;
+    color: white;
+}
