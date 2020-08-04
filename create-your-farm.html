@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="create-your-farm.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <title>Create your Farm</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAj6T-OAZRvcsqN7_X-43iIyeUbi52O9BE&callback=initMap&libraries=drawing&v=weekly" defer></script>
+    <style type="text/css">
+        /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+        
+        #map {
+            justify-content: center;
+            align-content: center;
+            height: 100%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        
+        html,
+        body {
+            height: 90%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <script>
+        "use strict";
+
+        // This example requires the Drawing library. Include the libraries=drawing
+        // parameter when you first load the API. For example:
+        // <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAj6T-OAZRvcsqN7_X-43iIyeUbi52O9BE&libraries=drawing">
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById("map"), {
+                center: {
+                    lat: 38.610,
+                    lng: -122.869
+                },
+                mapTypeId: 'satellite',
+                zoom: 13
+            });
+            const drawingManager = new google.maps.drawing.DrawingManager({
+                drawingMode: google.maps.drawing.OverlayType.POLYGON,
+                drawingControl: true,
+                drawingControlOptions: {
+                    position: google.maps.ControlPosition.TOP_CENTER,
+                    drawingModes: [
+                        google.maps.drawing.OverlayType.MARKER,
+                        google.maps.drawing.OverlayType.CIRCLE,
+                        google.maps.drawing.OverlayType.POLYGON,
+                        google.maps.drawing.OverlayType.POLYLINE,
+                        google.maps.drawing.OverlayType.RECTANGLE
+                    ]
+                },
+                markerOptions: {
+                    icon: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+                },
+                circleOptions: {
+                    fillColor: "#ffff00",
+                    fillOpacity: 1,
+                    strokeWeight: 5,
+                    clickable: false,
+                    editable: true,
+                    zIndex: 1
+                }
+            });
+            drawingManager.setMap(map);
+        }
+    </script>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm navbar-dark navbar-custom">
+        <a class="navbar-brand" href="aggrow.html"><img src="https://i.ibb.co/BwNQ42R/Logo-Final-a.jpg" class="logo"></a><button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown active"><a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">(current)</span>Home </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="background-color: #549556"><a class="dropdown-item" href="aggrow.html" style="color:white">My Profile</a><a class="dropdown-item" href="mentors.html" style="color:white">Mentor</a><a class="dropdown-item" href="aginfo.html" style="color:white">Information</a></div>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="About.html">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="Contact-us.html">Contact Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="FAQs.html">FAQs</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div style="height: 40px"></div>
+    <h3 style="text-align: center;">Create Your Farm</h3>
+
+    <div style="height: 20px"></div>
+    <div style="position:relative; width:100%; height:75%; justify-content:center; align-items:center">
+        <div id="map" style="width:100%; height:100%;"></div>
+
+        <div style="height: 20px"></div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        How many acres is your farm?
+                        <input type="text" class="form-control" placeholder="Acres">
+                    </div>
+                    <div class="form-group">
+                        What is your crop?
+                        <input type="text" class="form-control" placeholder="Crop">
+                    </div>
+                    <div class="form-group">
+                        <label for="Farming Methods">What is your farming method?</label>
+                        <div class="dropdown" id="custom-dd">
+                            <button class="btn btn-secondary dropdown-toggle btn-block" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Farming Methods
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <button class="dropdown-item" type="button">Organic</button>
+                                <button class="dropdown-item" type="button">Sustainable</button>
+                                <button class="dropdown-item" type="button">Polyculture</button>
+                                <button class="dropdown-item" type="button">Crop Rotations</button>
+                                <button class="dropdown-item" type="button">Other</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-sm-2 justify-content-center">
+                    <a role="button" class="btn btn-info btn-lg" href="registration.html">Register</a>
+                </div>
+                <div style="height: 100px;"></div>
+            </div>
+        </div>
+</body>
+
+</html>

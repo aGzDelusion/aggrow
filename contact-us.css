@@ -1,0 +1,34 @@
+body {
+    background-image: url(alex-wigan-0xO65I5N6Vw-unsplash.jpg);
+    background-size: cover;
+    font-family: Raleway !important;
+}
+
+hr {
+    background: white;
+}
+
+.contact-form {
+    font-family: Raleway;
+    background: rgb(84, 149, 86, 0.6);
+    color: white;
+    margin-top: 100px;
+    padding: 20px;
+    box-shadow: -4px -4px 12px rgba(0, 0, 0, 0.25), 4px 4px 12px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+}
+
+.btn {
+    background: rgb(84, 149, 86, 0.6) !important;
+}
+
+.logo {
+    max-width: auto;
+    max-height: 20px;
+    opacity: 1;
+}
+
+.navbar-custom {
+    background-color: #549556 !important;
+    font-family: Raleway;
+}

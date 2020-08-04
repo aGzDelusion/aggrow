@@ -19,12 +19,23 @@ html {
 #header {
     width: 100%;
     height: auto;
-    background-color: #549556;
-    background-image: url("federico-respini-sYffw0LNr7s-unsplash.jpg");
+    background-color: rgb(84, 149, 86, 0.6);
+    background-image: url("markus-spiske-iOL-0GJY-DM-unsplash.jpg");
 }
 
-.logo {
+.logo-a {
     width: 400px;
     border-radius: 10px;
     margin: 25px;
+}
+
+.logo {
+    max-width: auto;
+    max-height: 20px;
+    opacity: 1;
+}
+
+.navbar-custom {
+    background-color: #549556 !important;
+    font-family: Raleway;
 }

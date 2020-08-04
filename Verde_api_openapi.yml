@@ -1,0 +1,1230 @@
+openapi: 3.0.0
+info:
+  description: Verde API
+  title: Verde API
+  version: 1.0.0-beta
+servers:
+  - url: 'https://verde.oneatlas.airbus.com/'
+paths:
+  '/projects':
+    post:
+      summary: Create a project
+      description: Create a project. A project is a container for fields and subscriptions
+      operationId: createProject
+      tags:
+        - Projects
+      responses:
+        '201':
+          description: Project created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/projectResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/projectRequest'
+      security:
+        - api_key: []
+    get:
+      summary: Get all projects details
+      description: Return the details on all your projects available
+      tags:
+        - Projects
+      operationId: listProjects
+      responses:
+        '200':
+          description: List of projects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/projectsResponse'
+      security:
+        - api_key: []
+  '/projects/{projectID}':
+    parameters:
+      - $ref: '#/components/parameters/projectID'
+    get:
+      summary: Get a specific project details
+      description: Return the details on a specific project
+      tags:
+        - Projects
+      operationId: getProject
+      responses:
+        '200':
+          description: Project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/projectResponse'
+      security:
+        - api_key: []
+    delete:
+      summary : Delete a project
+      description: Delete a specific project. A project deletion causes the deletion of all the fields, subscriptions and observations belonging to the project
+      tags:
+        - Projects
+      operationId: deleteProject
+      responses:
+        '200':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorResponse'
+      security:
+        - api_key: []
+  '/projects/{projectID}/auth':
+    parameters:
+      - $ref: '#/components/parameters/projectID'
+    post:
+      summary: Set authorizations for a project/user
+      description: Manage the authorizations of foreign user on a specific project
+      tags:
+        - Authorizations
+      operationId: setProjectAuth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/auth'
+      responses:
+        '200':
+          description: authorizations for project/user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/authResponse'
+      security:
+        - api_key: []
+    get:
+      tags:
+        - Authorizations
+      summary: Get authorizations details on a specific project
+      description: Return the details on all authorizations assigned to a specific project
+      operationId: listProjectAuths
+      responses:
+        '200':
+          description: List of authorizations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/authsResponse'
+      security:
+        - api_key: []
+  '/projects/{projectID}/auth/{userID}':
+    parameters:
+      - $ref: '#/components/parameters/projectID'
+      - $ref: '#/components/parameters/userID'
+    delete:
+      summary: Delete authorizations for a project/user
+      description: Delete a user' authorizations on a specific project
+      tags:
+        - Authorizations
+      operationId: deleteProjectAuth
+      responses:
+        '204':
+          description: 'Authorizations for {userID} deleted on {projectID}'
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/errForbidden'
+              example:
+                err: admin access required
+          description: |-
+            Operation forbidden, possible reasons:
+            - authenticated user missing 'project:read' access scope on
+              {projectID}
+            - user is trying to remove himself
+        '404':
+          $ref: '#/components/responses/errNotFound'
+      security:
+        - api_key: []
+  '/projects/{projectID}/packages':
+    parameters:
+      - $ref: '#/components/parameters/projectID'
+    get:
+      summary: Get packages available details
+      description: Return the details on packages available for a specific project. A package is a subset of options defining production parameters
+      tags:
+        - Packages
+      operationId: listPackages
+      responses:
+        '200':
+          description: List of packages
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/packagesResponse'
+      security:
+        - api_key: []
+  '/projects/{projectID}/packages/{packageID}':
+    parameters:
+      - $ref: '#/components/parameters/projectID'
+      - $ref: '#/components/parameters/packageID'
+    get:
+      summary: Get a specific package details
+      description: Return the details on a specific package for a specific project. A package is a subset of options defining production parameters
+      tags:
+        - Packages
+      operationId: getPackage
+      responses:
+        '200':
+          description: package
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/packageResponse'
+      security:
+        - api_key: []
+  
+  
+  '/projects/{packageProjectID}/packages/{packageID}/consumption':
+    parameters:
+      - $ref: '#/components/parameters/packageProjectID'
+      - $ref: '#/components/parameters/packageID'
+    get:
+      summary: Get the consumption of a specific package
+      description: Return the historical consumption on that package in hectare depending of sensors.
+      tags:
+        - Consumptions
+      operationId: ListConsumptions
+      responses:
+        '200':
+          description: consumption
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/consumptionResponse'
+      security:
+        - api_key: []
+  '/projects/{packageProjectID}/packages/{packageID}/consumption/{consumptionID}':
+    parameters:
+      - $ref: '#/components/parameters/packageProjectID'
+      - $ref: '#/components/parameters/packageID'
+      - $ref: '#/components/parameters/consumptionID'
+    get:
+      summary: Get consumption details
+      description: Return a specific consumtion detail on a package
+      tags:
+        - Consumptions
+      operationId: getConsumption
+      responses:
+        '200':
+          description: Detail of a consumption
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/consumptionResponse'
+      security:
+        - api_key: []
+        
+  '/projects/{projectID}/fields':
+    parameters:
+      - $ref: '#/components/parameters/projectID'
+    post:
+      summary: Create a field inside a project
+      description: Create a field inside a project. A field is the exact footprint of a single seasonal or perenial crop
+      tags:
+        - Fields
+      operationId: createField
+      responses:
+        '200':
+          description: Field created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/fieldResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/fieldRequest'
+      security:
+        - api_key: []
+    get:
+      summary: Get fields details
+      description: Return details on the fields to which a specified project belongs
+      tags:
+        - Fields
+      operationId: listFields
+      responses:
+        '200':
+          description: List of fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/fieldsResponse'
+      security:
+        - api_key: []
+  '/projects/{projectID}/batchfields':
+    parameters:
+      - $ref: '#/components/parameters/projectID'
+    post:
+      summary: Create a batch field upload
+      description: Create fields, for massive upload. Batch field is limited to 500 fields by request.
+      tags:
+        - Fields
+      operationId: createFields
+      responses:
+        '200':
+          description: Fields created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/fieldsResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/fieldsRequest'
+      security:
+        - api_key: []
+  '/projects/{projectID}/fields/{fieldID}':
+    parameters:
+      - $ref: '#/components/parameters/projectID'
+      - $ref: '#/components/parameters/fieldID'
+    get:
+      summary: Get a specific field details
+      description: Return details on a specific field to which a specified project belongs
+      tags:
+        - Fields
+      operationId: getField
+      responses:
+        '200':
+          description: Field
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/fieldResponse'
+      security:
+        - api_key: []
+    delete:
+      summary: Delete a field
+      description: Delete a specific field. A field deletion causes the deletion of all the subscriptions and observations linked to this field
+      tags:
+        - Fields
+      operationId: deleteField
+      responses:
+        '200':
+          description: field deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorResponse'
+      security:
+        - api_key: []
+  '/projects/{projectID}/fields/{fieldID}/archive':
+    parameters:
+      - $ref: '#/components/parameters/projectID'
+      - $ref: '#/components/parameters/fieldID'
+  '/projects/{packageProjectID}/packages/{packageID}/archive':
+    parameters:
+      - $ref: '#/components/parameters/packageProjectID'
+      - $ref: '#/components/parameters/packageID'
+    post:
+      summary: Compute archive for a list of fields on a specific package
+      description: Compute an archive on a list of field of differents projects for a specific package over a specify period of time.
+      tags:
+        - Subscriptions
+      operationId: packageArchive
+      responses:
+        '201':
+          description: "acquisitions used by archive"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/archiveResponse'
+      requestBody:
+        content:
+           application/json:
+             schema:
+               $ref: '#/components/schemas/packageArchiveRequest'
+      security:
+        - api_key: []
+  '/projects/{packageProjectID}/packages/{packageID}/lives':
+    parameters:
+      - $ref: '#/components/parameters/packageProjectID'
+      - $ref: '#/components/parameters/packageID'
+    post:
+      summary: Activate live for a list of fields on a specific package
+      description:  Activate a live on a list of field of differents projects for a specific package.
+      tags:
+        - Subscriptions
+      operationId: packageLive
+      responses:
+        '200':
+          description: "lives created"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/liveResponse'
+      requestBody:
+        content:
+           application/json:
+             schema:
+               $ref: '#/components/schemas/packageLiveRequest'
+      security:
+        - api_key: []
+
+
+  '/projects/{projectID}/lives':
+    parameters:
+      - $ref: '#/components/parameters/projectID'
+    post:
+      deprecated: true
+      summary: Compute a live monitoring for a field
+      description: Activate an on-going vegetation monitoring on all new images acquires from the post date and the subscription deletion date over a specific field with the options of a specific package.
+      tags:
+        - Subscriptions
+      operationId: createLive
+      responses:
+        '200':
+          description: live created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/liveResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/liveRequest'
+      security:
+        - api_key: []
+    get:
+      summary: Get live subscriptions details
+      description: Return details on live subscriptions on-going inside a specific project
+      tags:
+        - Subscriptions
+      operationId: listLives
+      responses:
+        '200':
+          description: List of live monitoring subscriptions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/livesResponse'
+      security:
+        - api_key: []
+  '/projects/{projectID}/lives/{liveID}':
+    parameters:
+      - $ref: '#/components/parameters/projectID'
+      - $ref: '#/components/parameters/liveID'
+    get:
+      summary: Get a specific live subscriptions details
+      description: Return details on a specific live subscription on-going inside a specific project
+      tags:
+        - Subscriptions
+      operationId: getLiveSubscription
+      responses:
+        '200':
+          description: live monitoring subscription
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/liveResponse'
+      security:
+        - api_key: []
+    delete:
+      summary: Delete a live subscription
+      description: Delete a live monitoring subscription. the deletion of a live monitoring subscription stops the automatic production of all new image acquires after the deletion date
+      tags:
+        - Subscriptions
+      operationId: deleteLiveSubscription
+      responses:
+        '200':
+          description: live monitoring subscription deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorResponse'
+      security:
+        - api_key: []
+  '/projects/{projectID}/fields/{fieldID}/lives':
+    parameters:
+      - $ref: '#/components/parameters/projectID'
+      - $ref: '#/components/parameters/fieldID'
+    get:
+      summary: Get lives subscriptions details for a specific field
+      description: Return details on live subscriptions on-going for a specific field inside a specific project
+      tags:
+        - Subscriptions
+      operationId: fieldLivesSubcriptions
+      responses:
+        '200':
+          description: list of live monitoring subscriptions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/livesResponse'
+      security:
+        - api_key: []
+  '/projects/{projectID}/packages/{packageID}/lives':
+    parameters:
+      - $ref: '#/components/parameters/projectID'
+      - $ref: '#/components/parameters/packageID'
+    get:
+      summary: Get lives subscriptions details for a specific package
+      description: Return details on lives subscriptions on-going activated on a specific package inside a specific project
+      tags:
+        - Subscriptions
+      operationId: listPackageLive
+      responses:
+        '200':
+          description: lives
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/packageLivesResponse'
+      security:
+        - api_key: []
+  '/projects/{projectID}/fields/{fieldID}/observations':
+    parameters:
+      - $ref: '#/components/parameters/projectID'
+      - $ref: '#/components/parameters/fieldID'
+    get:
+      parameters:
+        - $ref: '#/components/parameters/registration'
+      summary: Get field observations details
+      description: Return details on observations avalaible for a specific field. An observation is the final result of applying the processing of a layer on an image. It contains the metadata of the outputs.
+      tags:
+        - Observations
+      operationId: getObservations
+      responses:
+        '200':
+          description: observations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/observationsResponse'
+      security:
+        - api_key: []
+  '/projects/{projectID}/fields/{fieldID}/observations/{observationID}':
+    parameters:
+      - $ref: '#/components/parameters/projectID'
+      - $ref: '#/components/parameters/fieldID'
+      - $ref: '#/components/parameters/observationID'
+    get:
+      parameters:
+        - $ref: '#/components/parameters/registration'
+      summary: Get a specific field observation details
+      description: Return details on  a specific observation avalaible for a specific field. An observation is the final result of applying the processing of a layer on an image. It contains the metadata of the outputs.
+      tags:
+        - Observations
+      operationId: getObservation
+      responses:
+        '200':
+          description: observation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/observationResponse'
+      security:
+        - api_key: []
+  '/projects/{projectID}/fields/{fieldID}/observations/{observationID}/data':
+    parameters:
+      - $ref: '#/components/parameters/projectID'
+      - $ref: '#/components/parameters/fieldID'
+      - $ref: '#/components/parameters/observationID'
+    get:
+      parameters:
+        - $ref: '#/components/parameters/layerType'
+        - $ref: '#/components/parameters/outputFormatType'
+        - $ref: '#/components/parameters/registration'
+      summary: Download an output format file
+      description: Download a specific file for a given layer. The layers are available in different raster format for visualization (DISPLAY*, in png/jpeg format) or for analysis (ANALYTICS in geotiff format). the maps are given in WGS84 (EPSG=4326). Leaf Area Index (LAI) and Chlorophyll content (CHL) are available for known crop in the Verde list. <table><tr><th></th><th>LAI</th><th>CHL</th><th>FCOVER</th><th>FIELDIMAGE</th></tr><tr><td>ANALYTICS</td><td>image/tiff - float[0.0 to 10.0] - WGS84</td><td>image/tiff - float[0.0 to 120.0] - WGS84</td><td>image/tiff - float[0.0 to 1.0] - WGS84</td><td></td></tr><tr><td>DISPLAY_FULLCYCLE</td><td>image/png</td><td>image/png</td><td>image/png</td><td></td></tr><tr><td>DISPLAY_EARLYSTAGE</td><td>image/png</td><td></td><td></td></tr><tr><td>DISPLAY</td><td></td><td></td><td></td><td></td><td></td><td>image/jpeg</td></tr></table> 
+      tags:
+        - Observations
+      operationId: getObservationData
+      responses:
+        '200':
+          description: one product data
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+                example: PNG encoded data
+      security:
+        - api_key: []
+components:
+  parameters:
+    projectID:
+      name: projectID
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/projectID'
+    packageProjectID:
+      name: packageProjectID
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/packageProjectID'
+    fieldID:
+      name: fieldID
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/fieldID'
+    observationID:
+      name: observationID
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/observationID'
+    userID:
+      name: userID
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/userID'
+    liveID:
+      name: liveID
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/liveID'
+    packageID:
+      name: packageID
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/packageID'
+    consumptionID:
+      name: consumptionID
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/consumptionID'
+    layerType:
+      name: lk
+      description: the layer name that you want to download
+      in: query
+      required: true
+      schema:
+        $ref: '#/components/schemas/layerType'
+    outputFormatType:
+      name: ofk
+      description: the output type of format that you want to download
+      in: query
+      required: true
+      schema:
+        $ref: '#/components/schemas/outputFormatType'
+    registration:
+      name: reg
+      description: whether or not getting a submetric registration
+      in: query
+      required: false
+      schema:
+        $ref: '#/components/schemas/registration'
+  responses:
+    errNotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/errorResponse'
+    errUnauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/errorResponse'
+    errForbidden:
+      description: Authenticated user does not have sufficient rights to perform this operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/errorResponse'
+  schemas:
+    error:
+      type: string
+      example: null
+    projectID:
+      type: string
+      example: aaaaa-bbbbb-cccccc-projectidstring
+    packageProjectID:
+      type: string
+      example: aaaaa-bbbbb-cccccc-projectidstring
+    archiveDate:
+      type: string
+      format: date
+      example: '2018-02-24'
+      description: defined the period of the archive monitoring. must be in the past
+    errorResponse:
+      properties:
+        err:
+          $ref: '#/components/schemas/error'
+    projectRequest:
+      properties:
+        name:
+          type: string
+          description: your project name
+      example:
+        name: my verde project
+    project:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/projectID'
+          example:
+            id: aaaa-bbbb-pppppppppppp
+        - $ref: '#/components/schemas/projectRequest'
+    projectResponse:
+      properties:
+        project:
+          $ref: '#/components/schemas/project'
+    projectsResponse:
+      properties:
+        projects:
+          type: array
+          items:
+            $ref: '#/components/schemas/project'
+    userID:
+      type: string
+      example: my-user-id@email.com
+    auth:
+      properties:
+        userID:
+          $ref: '#/components/schemas/userID'
+        scopes:
+          type: array
+          items:
+            $ref: '#/components/schemas/scope'
+      example:
+        userID: my-user-id@email.com
+        scopes:
+          - 'project:read'
+    authsResponse:
+      properties:
+        auths:
+          type: array
+          items:
+            $ref: '#/components/schemas/auth'
+    authResponse:
+      properties:
+        auth:
+          $ref: '#/components/schemas/auth'
+    scope:
+      type: string
+      enum:
+        - 'project:read'
+        - 'project:admin'
+        - 'packages:subscribe'
+    fieldID:
+      type: string
+      example: aaaa-bbbb-cccc-myfieldid
+    fieldArchiveRequest:
+      properties:
+        startDate:
+          $ref: '#/components/schemas/archiveDate'
+        endDate:
+          $ref: '#/components/schemas/archiveDate'
+        packageID:
+          $ref: '#/components/schemas/packageID'
+        packageProjectID:
+          $ref: '#/components/schemas/packageProjectID'
+    archiveResponse:
+      properties:
+        acquisitions:
+          type: array
+          items:
+            $ref: '#/components/schemas/acquisition'
+    fieldResponse:
+      properties:
+        field:
+          $ref: '#/components/schemas/field'
+    fieldsResponse:
+      properties:
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/field'
+    acquisition:
+      properties:
+        sensor:
+          $ref: '#/components/schemas/sensor'
+        constellation:
+          $ref: '#/components/schemas/constellation'
+        sensingDate:
+          format: date-time
+          type: string
+          description: Date of acquisition
+          example: '2016-07-06T16:51:18.888Z'
+        sourceID:
+          type: string
+          description: image reference
+          example: DS_SPOT6_201607061651254_FR1_FR1_SE1_SE1_W099N42_0114
+        uri:
+          type: string
+          description: image bucket
+          example: gs:///gcp-public...
+    layer:
+      properties:
+        outputformat:
+          description: the ouput format available for a given layer
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/outpuFormatFile'
+        stats:
+          $ref: '#/components/schemas/fieldStatistics'
+    outpuFormatFile:
+      properties:
+        mimeType:
+          type: string
+        bbox:
+          $ref: '#/components/schemas/bbox'
+    outputFormatType:
+      type: string
+      description: the list of output format available for a given layer (DISPLAY is the only format available for FIELDIMAGE layer)
+      enum:
+        - ANALYTICS
+        - DISPLAY_FULLCYCLE
+        - DISPLAY_EARLYSTAGE
+        - DISPLAY
+    registration:
+      type: boolean
+      description: boolean for applying or not a registration
+      enum:
+        - true
+        - false
+    
+    observationID:
+      type: string
+      example: aaaa-bbbb-cccc-anobservationid
+    observation:
+      properties:
+        id:
+          $ref: '#/components/schemas/observationID'
+        acquisition:
+          $ref: '#/components/schemas/acquisition'
+        processingDate:
+          format: date-time
+          type: string
+          description: Date of layers computation
+        cloudFreeCover:
+          type: number
+          example: 0.95
+          description: the percentage [0 to 1] of surface without cloud and cloud shadow coverage over the field boundaries
+        layers:
+          description: layer in layer type list
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/layer'
+          example:
+            LAI:
+              outputFormat:
+                DISPLAY_EARLYSTAGE:
+                  bbox:
+                    - -93.29958580434322
+                    - 41.964571979591774
+                    - -93.29010402783751
+                    - 41.97892191537615
+                  mimeType: image/png
+                DISPLAY_FULLCYCLE:
+                  bbox:
+                    - -93.29958580434322
+                    - 41.964571979591774
+                    - -93.29010402783751
+                    - 41.97892191537615
+                  mimeType: image/png
+                ANALYTICS:
+                  bbox:
+                    - -93.29958580434322
+                    - 41.964571979591774
+                    - -93.29010402783751
+                    - 41.97892191537615
+                  mimeType: image/tiff
+              stats:
+                mean: 0.23467
+                median: 0.2153
+                sd: 0.0231
+                validity: 0.95
+            FIELDIMAGE:
+              outputFormat:
+                DISPLAY:
+                  bbox:
+                    - -93.29958580434322
+                    - 41.964571979591774
+                    - -93.29010402783751
+                    - 41.97892191537615
+                  mimeType: image/jpeg
+    observationResponse:
+      properties:
+        observation:
+          $ref: '#/components/schemas/observation'
+    observationsResponse:
+      properties:
+        observations:
+          type: array
+          items:
+            $ref: '#/components/schemas/observation'
+    fieldStatistics:
+      properties:
+        mean:
+          type: number
+        sd:
+          type: number
+        median:
+          type: number
+        validity:
+          type: number
+      description: the statistic value of a specific layer over the field boundaries
+    liveID:
+      type: string
+      example: aaaa-bbbb-cccc-aliveid
+    livePackage:
+      properties:
+        id:
+          $ref: '#/components/schemas/packageID'
+        projectID:
+          $ref: '#/components/schemas/projectID'
+    liveField:
+      properties:
+        id:
+          $ref: '#/components/schemas/fieldID'
+        projectID:
+          $ref: '#/components/schemas/projectID'
+    liveRequest:
+      properties:
+        field:
+          $ref: '#/components/schemas/liveField'
+        package:
+          $ref: '#/components/schemas/livePackage'
+    live:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/liveID'
+        - $ref: '#/components/schemas/liveRequest'
+    liveResponse:
+      properties:
+        live:
+          $ref: '#/components/schemas/live'
+    livesResponse:
+      properties:
+        lives:
+          type: array
+          items:
+            $ref: '#/components/schemas/live'
+    packageLivesResponse:
+      properties:
+        lives:
+          description: 'a (projectID,array of lives) map.'
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/live'
+          example:
+            aaaa-bbbbb-project:
+              - '{...sub1...}'
+              - '{...sub2...}'
+            cccc-ddddd-project:
+              - '{...sub3...}'
+              - '{...sub4...}'
+    packageID:
+      type: string
+      example: aaaa-bbbb-cccc-myplanid
+    packageRequest:
+      properties:
+        name:
+          type: string
+        constellations:
+          type: array
+          items:
+            $ref: '#/components/schemas/constellation'
+        cloudFree:
+          $ref: '#/components/schemas/cloudFree'
+        startDate:
+          format: date-time
+          type: string
+          description: beginning of the validity period of the package
+        endDate:
+          format: date-time
+          type: string
+          description: end of the validity period of the package
+        crops:
+          type: array
+          description: the list of available crop for the package
+          items:
+            $ref: '#/components/schemas/cropType'
+        layers:
+          type: array
+          description: the list of desired outputs
+          items:
+            $ref: '#/components/schemas/layerType'
+    packageArchiveRequest:
+      properties:
+        startDate:
+          $ref: '#/components/schemas/archiveDate'
+        endDate:
+          $ref: '#/components/schemas/archiveDate'
+        fields:
+          description: "a (projectID,array of fieldIDs) map."
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/fieldID'
+          example:
+              aaaa-bbbbb-project:
+                - a-b-c-f-fld1
+                - a-b-c-d-fld2
+              cccc-ddddd-project:
+                - a-b-c-fld1
+                - a-b-c-fld2
+    packageLiveRequest:
+      properties:
+        fields:
+          description: "a (projectID,array of fieldIDs) map."
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/fieldID'
+          example:
+              aaaa-bbbbb-project:
+                - a-b-c-f-fld1
+                - a-b-c-d-fld2
+              cccc-ddddd-project:
+                - a-b-c-fld1
+                - a-b-c-fld2
+    package:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/packageID'
+        - $ref: '#/components/schemas/packageRequest'
+    packageResponse:
+      properties:
+        package:
+          $ref: '#/components/schemas/package'
+    packagesResponse:
+      properties:
+        packages:
+          type: array
+          items:
+            $ref: '#/components/schemas/package'
+    
+    consumptionID:
+      type: string
+      example: aaaaa-bbbbb-cccccc-projectidstring
+    
+    consumption:
+      allOf:
+          - type: object
+            properties:
+              id:
+                $ref: '#/components/schemas/consumptionID'
+              consumptionReportDate:
+                format: date-time
+                type: string
+                description: time of monitored consumption
+              totalAreaSpot:
+                format: number
+                description: surface processed by Verde for sensor SPOT
+                example : 45.545
+              totalAreaPleiades:
+                format: number
+                description: surface processed by Verde for sensor PLEIADES
+                example : 8.54
+              totalAreaSentinel2Landsat:
+                format: number
+                description: surface processed by Verde onfor sensor SENTINEL-2 / LANDSAT
+                example : 140.6545
+              overConsumedArchive:
+                format: number
+                description: Number of Archive requests on Verde (only 2 archive requests by field are permitted over an agricultural season)
+                example : 14
+              averageArchiveRequestsPerField:
+                format: number
+                description: Ratio of Archive by Fields processed over the package. (Should not be up to 2)
+                example : 0.5
+    
+    consumptionResponse:
+      properties:
+        consumption:
+          type: array
+          items:
+            $ref: '#/components/schemas/consumption'
+        
+            
+            
+            
+    cloudFree:
+      type: number
+      format: double
+      description: Requirement of surface without cloud coverage in percent over the field boundaries [0 to 1]
+      example:
+        - 0.7
+    cropType:
+      type: string
+      description: crop of the field in the crop types list
+      enum:
+        - CORN
+        - WHEAT
+        - BARLEY
+        - SOYBEAN
+        - ALMONDS
+        - RAPESEED
+        - OTHERCROP
+        - RICE
+        - SUNFLOWER
+        - POTATOES
+        - SUGARBEET
+        - COTTON
+        - ALFALFA
+        - SUGARCANE
+        - CLASSIFCROPS
+        - GRASS
+    layerType:
+      type: string
+      description: output layer in the layer type list
+      enum:
+        - LAI
+        - FIELDIMAGE
+        - FCOVER
+        - CHL
+    sensor:
+      type: string
+      description: sensor used for the acquisition
+      enum:
+        - SPOT6
+        - SPOT7
+        - SENTINEL2A
+        - SENTINEL2B
+        - LANDSAT8
+        - LANDSAT7
+        - PHR1A
+        - PHR1B
+    constellation:
+      type: string
+      description: platform family of sensors
+      enum:
+        - SPOT
+        - SENTINEL2
+        - LANDSAT
+        - PLEIADES
+    bbox:
+      description: 'A 2d bounding box [minlon,minlat,maxlon,maxlat]'
+      type: array
+      minimum: 4
+      maximum: 4
+      items:
+        type: number
+        format: double
+      example:
+        - 0
+        - 0
+        - 1
+        - 1
+    fieldRequest:
+      type: object
+      required:
+        - geometry
+        - crop
+        - name
+      properties:
+        geometry:
+          description: the field boundary in a GeoJSON geometry collection
+          oneOf:
+            - $ref: '#/components/schemas/Polygon'
+            - $ref: '#/components/schemas/MultiPolygon'
+        name:
+          type: string
+          description: field name
+        crop:
+          $ref: '#/components/schemas/cropType'
+      example:
+        crop: CORN
+        name: my example field
+        geometry:
+          type: Polygon
+          coordinates:
+            - - - 1.4870278257876635
+                - 43.556622324539184
+              - - 1.4864001888781786
+                - 43.55617149993908
+              - - 1.4881543535739183
+                - 43.55443414432695
+              - - 1.488787354901433
+                - 43.554934463894824
+              - - 1.4870278257876635
+                - 43.556622324539184
+    fieldsRequest:
+      type: array
+      items:
+            $ref: '#/components/schemas/fieldRequest'
+    field:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/fieldID'
+            
+            area:
+              type: number
+              format: double
+              description: the total field surface (unit:m²)
+          example:
+            id: aaaa-bbbb-ccccc-ddddddddd
+            area: 23456.7
+        - $ref: '#/components/schemas/fieldRequest'
+    FieldGeometry:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+      discriminator:
+        propertyName: type
+    Polygon:
+      allOf:
+        - $ref: '#/components/schemas/FieldGeometry'
+        - type: object
+          properties:
+            coordinates:
+              $ref: '#/components/schemas/Polygon2D'
+    MultiPolygon:
+      allOf:
+        - $ref: '#/components/schemas/FieldGeometry'
+        - type: object
+          properties:
+            coordinates:
+              $ref: '#/components/schemas/MultiPolygon2D'
+    MultiPolygon2D:
+      type: array
+      items:
+        $ref: '#/components/schemas/Polygon2D'
+    Polygon2D:
+      type: array
+      minItems: 1
+      items:
+        $ref: '#/components/schemas/LinearRing2D'
+    LinearRing2D:
+      type: array
+      minItems: 4
+      items:
+        $ref: '#/components/schemas/Point2D'
+    Point2D:
+      description: A 2d geojson point
+      type: array
+      minimum: 2
+      maximum: 2
+      items:
+        type: number
+        format: double
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: apikey
+      in: header

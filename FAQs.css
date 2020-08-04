@@ -1,0 +1,10 @@
+.logo {
+    max-width: auto;
+    max-height: 20px;
+    opacity: 1;
+}
+
+.navbar-custom {
+    background-color: #549556 !important;
+    font-family: Raleway;
+}
